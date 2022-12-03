@@ -10,7 +10,7 @@ Content-Type: application/json
   "leadActor": "Jeff Goldblum"
 }
 ###
-GET http://localhost:3000/movies/12
+GET http://localhost:3000/movies/11/
 
 ###
 PUT http://localhost:3000/movies/12
@@ -32,4 +32,4 @@ GET http://localhost:3000/directors/
 
 ###
 
-GET http://localhost:3000/directors/:directorId/movies/
+GET http://localhost:3000/directors/7/movies/

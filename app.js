@@ -78,8 +78,9 @@ app.get("/movies/:movieId/", async (request, response) => {
     WHERE movie_id = ${movieId};
     `;
 
-  const movieDetails = await db.get(movieGetQuery);
-  response.send(movieDetails);
+  const movieDetail = await db.get(movieGetQuery);
+  console.log(movieDetail);
+  response.send(movieDetail);
 });
 
 //Update the movie details
@@ -144,12 +145,26 @@ app.get("/directors/:directorId/movies/", async (request, response) => {
 
   const movieNamesQuery = `
     SELECT movie_name
-    FROM movie
-    WHERE director_id = ${directorId};
+    FROM movie INNER JOIN director ON movie.director_id = director.director_id
+    WHERE movie.director_id = ${directorId};
     `;
 
   const movieList = await db.all(movieNamesQuery);
-  response.send(movieList);
+
+  const convertSnakeCaseToCamelCase = (dbObject) => {
+    return {
+      movieName: dbObject.movie_name,
+    };
+  };
+
+  let arr = [];
+
+  for (let each of movieList) {
+    const a = convertSnakeCaseToCamelCase(each);
+    arr.push(a);
+  }
+
+  response.send(arr);
 });
 
 module.exports = app;
